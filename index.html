@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ARTH AI — Stop Losing Property Leads to Slow Follow-Ups</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#060E19;--bg2:#0A1628;--bg3:#0D1F35;
+  --blue:#1A8CFF;--cyan:#00CFFF;--green:#00C566;
+  --white:#F4F9FF;--gray:#6B7FA3;--lgray:#9BAECC;
+  --border:rgba(26,140,255,0.12);
+  --f:'Plus Jakarta Sans',sans-serif;
+  --fm:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:var(--f);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--blue);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 6%;backdrop-filter:blur(24px);background:rgba(6,14,25,0.85);border-bottom:1px solid var(--border);}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-mark{width:32px;height:32px;}
+.logo-text{font-size:18px;font-weight:800;letter-spacing:-0.02em;color:var(--white);}
+.logo-text span{color:var(--cyan);}
+.nav-right{display:flex;align-items:center;gap:20px;}
+.nav-link{font-size:13px;color:var(--gray);text-decoration:none;font-weight:500;transition:color .2s;}
+.nav-link:hover{color:var(--white);}
+.nav-wa{display:flex;align-items:center;gap:7px;background:#25D366;color:#fff;padding:9px 18px;border-radius:6px;font-size:13px;font-weight:700;text-decoration:none;transition:all .2s;}
+.nav-wa:hover{background:#1fb558;transform:translateY(-1px);}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding:100px 6% 60px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-30%;left:-20%;width:800px;height:800px;background:radial-gradient(circle,rgba(0,100,220,0.12) 0%,transparent 65%);pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(0,200,255,0.07) 0%,transparent 65%);pointer-events:none;}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(26,140,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(26,140,255,0.03) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;}
+.hero-left{position:relative;z-index:1;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(0,197,102,0.1);border:1px solid rgba(0,197,102,0.25);padding:6px 14px;border-radius:20px;font-size:12px;color:#00C566;font-weight:600;letter-spacing:0.04em;margin-bottom:28px;}
+.hero-tag::before{content:'';width:6px;height:6px;background:#00C566;border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(0.8);}}
+.hero h1{font-size:clamp(36px,4.5vw,56px);font-weight:800;line-height:1.08;letter-spacing:-0.03em;margin-bottom:20px;}
+.hero h1 .accent{color:var(--cyan);display:block;}
+.hero-sub{font-size:17px;color:var(--lgray);line-height:1.75;margin-bottom:36px;font-weight:400;}
+.hero-sub strong{color:var(--white);font-weight:600;}
+.hero-ctas{display:flex;flex-direction:column;gap:12px;margin-bottom:48px;}
+.cta-wa{display:flex;align-items:center;justify-content:center;gap:10px;background:#25D366;color:#fff;padding:17px 28px;border-radius:8px;font-size:16px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 24px rgba(37,211,102,0.3);}
+.cta-wa:hover{background:#1fb558;transform:translateY(-2px);box-shadow:0 8px 32px rgba(37,211,102,0.4);}
+.cta-secondary{display:flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:1px solid var(--border);color:var(--lgray);padding:15px 28px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;transition:all .2s;}
+.cta-secondary:hover{border-color:var(--blue);color:var(--white);}
+.hero-proof{display:flex;gap:28px;flex-wrap:wrap;}
+.proof-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray);}
+.proof-item strong{color:var(--white);font-weight:700;}
+.proof-dot{width:4px;height:4px;background:var(--cyan);border-radius:50%;}
+
+/* WHATSAPP CHAT MOCKUP */
+.hero-right{position:relative;z-index:1;}
+.chat-phone{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.05);max-width:340px;margin:0 auto;}
+.chat-header{background:#075E54;padding:14px 16px;display:flex;align-items:center;gap:12px;}
+.chat-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1E90FF,#00D1FF);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;}
+.chat-info h4{font-size:14px;font-weight:600;color:#fff;}
+.chat-info p{font-size:11px;color:rgba(255,255,255,0.6);}
+.chat-online{width:8px;height:8px;background:#25D366;border-radius:50%;margin-left:auto;}
+.chat-body{padding:16px;display:flex;flex-direction:column;gap:10px;background:#0D1B2A;min-height:320px;}
+.msg{max-width:82%;padding:10px 13px;border-radius:10px;font-size:13px;line-height:1.6;}
+.msg-in{background:#1A2A3A;color:var(--lgray);align-self:flex-start;border-bottom-left-radius:3px;}
+.msg-out{background:#075E54;color:#E8F8F0;align-self:flex-end;border-bottom-right-radius:3px;}
+.msg-time{font-size:10px;opacity:.6;margin-top:4px;text-align:right;}
+.msg-status{color:#53bdeb;}
+.typing{display:flex;align-items:center;gap:6px;padding:10px 13px;background:#1A2A3A;border-radius:10px;align-self:flex-start;width:60px;}
+.typing span{width:6px;height:6px;background:var(--gray);border-radius:50%;animation:typing .8s infinite;}
+.typing span:nth-child(2){animation-delay:.2s;}
+.typing span:nth-child(3){animation-delay:.4s;}
+@keyframes typing{0%,100%{opacity:.3;transform:translateY(0);}50%{opacity:1;transform:translateY(-3px);}}
+.chat-badge{background:rgba(0,197,102,0.12);border:1px solid rgba(0,197,102,0.2);border-radius:0 0 20px 20px;padding:10px 16px;display:flex;align-items:center;gap:8px;font-size:12px;color:#00C566;font-weight:600;}
+
+/* TRUST BAR */
+.trust-bar{padding:24px 6%;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(10,22,40,0.5);}
+.trust-inner{display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap;}
+.trust-item{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--gray);font-weight:500;}
+.trust-icon{font-size:18px;}
+
+/* PROBLEM */
+.problem{padding:90px 6%;}
+.section-eyebrow{font-family:var(--fm);font-size:11px;color:var(--cyan);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.section-eyebrow::before{content:'';width:24px;height:1px;background:var(--cyan);}
+.section-h{font-size:clamp(28px,3.5vw,44px);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:14px;}
+.section-sub{font-size:16px;color:var(--lgray);line-height:1.7;max-width:540px;}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:50px;}
+.problem-card{background:var(--bg2);padding:32px 28px;transition:background .2s;}
+.problem-card:hover{background:var(--bg3);}
+.problem-emoji{font-size:32px;margin-bottom:16px;}
+.problem-card h3{font-size:16px;font-weight:700;color:#FF6B6B;margin-bottom:10px;}
+.problem-card p{font-size:13px;color:var(--gray);line-height:1.7;}
+.problem-stat{font-family:var(--fm);font-size:11px;color:rgba(255,107,107,0.7);margin-top:12px;letter-spacing:0.08em;}
+
+/* WORKFLOW */
+.workflow{padding:90px 6%;background:linear-gradient(180deg,transparent,rgba(0,20,60,0.3),transparent);}
+.workflow-steps{margin-top:50px;display:flex;flex-direction:column;gap:0;max-width:700px;margin-left:auto;margin-right:auto;}
+.wf-step{display:grid;grid-template-columns:48px 1fr;gap:24px;padding:28px 0;border-bottom:1px solid var(--border);position:relative;}
+.wf-step:last-child{border-bottom:none;}
+.wf-step::before{content:'';position:absolute;left:22px;top:60px;bottom:-28px;width:1px;background:linear-gradient(var(--blue),transparent);opacity:.3;}
+.wf-step:last-child::before{display:none;}
+.wf-num{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0;box-shadow:0 0 20px rgba(26,140,255,0.3);}
+.wf-content h3{font-size:17px;font-weight:700;margin-bottom:8px;}
+.wf-content p{font-size:14px;color:var(--gray);line-height:1.7;}
+.wf-tag{display:inline-block;margin-top:10px;background:rgba(26,140,255,0.1);border:1px solid rgba(26,140,255,0.2);padding:4px 12px;border-radius:20px;font-family:var(--fm);font-size:11px;color:var(--cyan);}
+.wf-result{background:rgba(0,197,102,0.08);border:1px solid rgba(0,197,102,0.2);border-radius:12px;padding:24px;margin-top:32px;display:flex;align-items:center;gap:16px;}
+.wf-result-icon{font-size:36px;}
+.wf-result h4{font-size:18px;font-weight:800;color:#00C566;margin-bottom:4px;}
+.wf-result p{font-size:14px;color:var(--lgray);}
+
+/* USE CASES */
+.usecases{padding:90px 6%;}
+.usecase-tabs{display:flex;gap:8px;margin:40px 0 32px;flex-wrap:wrap;}
+.uc-tab{padding:10px 20px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--gray);font-family:var(--f);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;}
+.uc-tab.active,.uc-tab:hover{background:var(--blue);border-color:var(--blue);color:#fff;}
+.uc-content{display:none;}
+.uc-content.active{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;}
+.uc-points{display:flex;flex-direction:column;gap:14px;}
+.uc-point{display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;}
+.uc-point-icon{font-size:20px;flex-shrink:0;}
+.uc-point h4{font-size:14px;font-weight:700;margin-bottom:4px;}
+.uc-point p{font-size:13px;color:var(--gray);line-height:1.6;}
+.uc-highlight{background:linear-gradient(135deg,rgba(26,140,255,0.08),rgba(0,207,255,0.05));border:1px solid var(--border);border-radius:12px;padding:32px;}
+.uc-highlight h3{font-size:22px;font-weight:800;margin-bottom:16px;color:var(--cyan);}
+.uc-highlight p{font-size:15px;color:var(--lgray);line-height:1.75;margin-bottom:20px;}
+.uc-result{display:flex;gap:20px;flex-wrap:wrap;}
+.uc-result-item{text-align:center;}
+.uc-result-num{font-size:32px;font-weight:800;color:var(--cyan);}
+.uc-result-label{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;}
+
+/* RESULTS */
+.results{padding:70px 6%;background:rgba(0,20,50,0.3);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:40px;}
+.result-card{background:var(--bg2);padding:36px 24px;text-align:center;}
+.result-num{font-size:52px;font-weight:800;letter-spacing:-0.03em;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;}
+.result-label{font-size:13px;color:var(--gray);margin-top:8px;text-transform:uppercase;letter-spacing:0.08em;font-weight:500;}
+
+/* FEATURES */
+.features{padding:90px 6%;}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:50px;}
+.feat-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:28px;transition:all .25s;cursor:default;}
+.feat-card:hover{border-color:rgba(26,140,255,0.3);transform:translateY(-3px);background:var(--bg3);}
+.feat-icon{font-size:26px;margin-bottom:14px;}
+.feat-card h3{font-size:15px;font-weight:700;margin-bottom:8px;}
+.feat-card p{font-size:13px;color:var(--gray);line-height:1.7;}
+.feat-badge{display:inline-block;margin-top:12px;font-family:var(--fm);font-size:10px;color:var(--cyan);letter-spacing:0.1em;}
+
+/* FAQ */
+.faq{padding:90px 6%;}
+.faq-list{margin-top:40px;display:flex;flex-direction:column;gap:0;max-width:720px;margin-left:auto;margin-right:auto;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.faq-item{border-bottom:1px solid var(--border);background:var(--bg2);}
+.faq-item:last-child{border-bottom:none;}
+.faq-q{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:15px;font-weight:600;transition:background .2s;}
+.faq-q:hover{background:var(--bg3);}
+.faq-q .icon{font-size:18px;color:var(--cyan);transition:transform .3s;flex-shrink:0;}
+.faq-a{padding:0 24px;max-height:0;overflow:hidden;transition:all .35s ease;}
+.faq-a p{font-size:14px;color:var(--lgray);line-height:1.8;padding-bottom:20px;}
+.faq-item.open .faq-a{max-height:200px;}
+.faq-item.open .icon{transform:rotate(45deg);}
+
+/* FINAL CTA */
+.final-cta{padding:100px 6%;text-align:center;position:relative;overflow:hidden;}
+.final-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(0,100,220,0.15) 0%,transparent 65%);pointer-events:none;}
+.final-cta h2{font-size:clamp(32px,5vw,58px);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:20px;position:relative;z-index:1;}
+.final-cta p{font-size:17px;color:var(--lgray);margin-bottom:40px;max-width:500px;margin-left:auto;margin-right:auto;position:relative;z-index:1;}
+.final-cta-btns{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;position:relative;z-index:1;}
+.btn-big-wa{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:18px 36px;border-radius:8px;font-size:17px;font-weight:800;text-decoration:none;transition:all .2s;box-shadow:0 4px 30px rgba(37,211,102,0.35);}
+.btn-big-wa:hover{background:#1fb558;transform:translateY(-2px);}
+.btn-big-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--border);color:var(--lgray);padding:18px 36px;border-radius:8px;font-size:16px;font-weight:600;text-decoration:none;transition:all .2s;}
+.btn-big-outline:hover{border-color:var(--blue);color:var(--white);}
+
+/* CONTACT FORM */
+.contact{padding:90px 6%;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:50px;align-items:start;}
+.contact-left h3{font-size:26px;font-weight:800;margin-bottom:16px;letter-spacing:-0.02em;}
+.contact-left p{font-size:15px;color:var(--lgray);line-height:1.75;margin-bottom:28px;}
+.contact-methods{display:flex;flex-direction:column;gap:12px;}
+.cm{display:flex;align-items:center;gap:14px;padding:16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:inherit;transition:all .2s;}
+.cm:hover{border-color:var(--cyan);transform:translateX(4px);}
+.cm-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.cm h4{font-size:14px;font-weight:700;margin-bottom:2px;}
+.cm p{font-size:12px;color:var(--gray);}
+.form-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:32px;}
+.form-box h3{font-size:20px;font-weight:800;margin-bottom:24px;letter-spacing:-0.02em;}
+.fg{margin-bottom:14px;}
+.fg label{display:block;font-family:var(--fm);font-size:10px;color:var(--gray);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:7px;}
+.fg input,.fg select,.fg textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--white);font-family:var(--f);font-size:14px;padding:12px 14px;border-radius:6px;outline:none;transition:border-color .2s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--cyan);}
+.fg select option{background:#0a1628;}
+.fg textarea{resize:vertical;min-height:80px;}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.submit-btn{width:100%;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;border:none;padding:15px;border-radius:8px;font-family:var(--f);font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:4px;}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,180,255,0.3);}
+
+/* FOOTER */
+footer{padding:50px 6% 28px;border-top:1px solid var(--border);}
+.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+.footer-brand .logo{margin-bottom:12px;display:inline-flex;}
+.footer-brand p{font-size:13px;color:var(--gray);line-height:1.7;max-width:260px;}
+.footer-col h4{font-family:var(--fm);font-size:10px;color:var(--cyan);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:14px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.footer-col ul li a{font-size:13px;color:var(--gray);text-decoration:none;transition:color .2s;}
+.footer-col ul li a:hover{color:var(--white);}
+.footer-bottom{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-bottom p{font-size:12px;color:var(--gray);font-family:var(--fm);}
+
+/* RESPONSIVE — TABLET */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;gap:36px;padding-top:90px;min-height:auto;}
+  .hero-right{display:flex;justify-content:center;}
+  .chat-phone{max-width:400px;}
+  .problem-grid{grid-template-columns:1fr;}
+  .features-grid{grid-template-columns:1fr 1fr;}
+  .results-grid{grid-template-columns:1fr 1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;gap:28px;}
+  .uc-content.active{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  .footer-brand{grid-column:1/-1;}
+}
+
+/* RESPONSIVE — MOBILE */
+@media(max-width:640px){
+  /* Nav */
+  nav{padding:0 5%;height:58px;}
+  .nav-link{display:none;}
+  .nav-wa{padding:8px 14px;font-size:12px;}
+  .logo-text{font-size:16px;}
+
+  /* Hero */
+  .hero{padding:80px 5% 50px;gap:32px;}
+  .hero h1{font-size:32px;line-height:1.1;}
+  .hero-sub{font-size:15px;margin-bottom:28px;}
+  .hero-tag{font-size:11px;padding:5px 12px;}
+  .cta-wa{font-size:15px;padding:15px 20px;}
+  .cta-secondary{font-size:14px;padding:13px 20px;}
+  .hero-proof{flex-wrap:wrap;gap:10px;}
+  .proof-item{font-size:12px;}
+  .proof-dot{display:none;}
+  .chat-phone{max-width:100%;}
+
+  /* Trust bar */
+  .trust-inner{gap:14px;justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;}
+  .trust-item{font-size:12px;white-space:nowrap;flex-shrink:0;}
+
+  /* Sections */
+  .problem,.workflow,.usecases,.features,.faq,.final-cta,.contact,.results{padding:60px 5%;}
+  .section-h{font-size:28px;}
+  .section-sub{font-size:14px;}
+
+  /* Problem */
+  .problem-grid{grid-template-columns:1fr;gap:10px;}
+  .problem-card{padding:22px 18px;}
+
+  /* Workflow */
+  .wf-step{grid-template-columns:40px 1fr;gap:16px;}
+  .wf-num{width:40px;height:40px;font-size:16px;}
+  .wf-content h3{font-size:15px;}
+  .wf-content p{font-size:13px;}
+  .wf-result{flex-direction:column;gap:12px;padding:20px;}
+
+  /* Use case tabs */
+  .usecase-tabs{gap:6px;}
+  .uc-tab{font-size:12px;padding:8px 12px;}
+  .uc-point{padding:14px;}
+  .uc-highlight{padding:22px;}
+  .uc-result{gap:14px;}
+  .uc-result-num{font-size:26px;}
+
+  /* Features */
+  .features-grid{grid-template-columns:1fr;}
+  .feat-card{padding:22px 18px;}
+
+  /* Results */
+  .results-grid{grid-template-columns:1fr 1fr;}
+  .result-num{font-size:40px;}
+  .result-card{padding:28px 16px;}
+
+  /* FAQ */
+  .faq-q{font-size:14px;padding:16px 18px;}
+  .faq-a p{padding:0 18px 16px;font-size:13px;}
+
+  /* Final CTA */
+  .final-cta{padding:70px 5%;}
+  .final-cta h2{font-size:28px;}
+  .final-cta p{font-size:15px;}
+  .final-cta-btns{flex-direction:column;align-items:stretch;}
+  .btn-big-wa,.btn-big-outline{text-align:center;justify-content:center;padding:16px 20px;font-size:15px;}
+
+  /* Contact */
+  .contact-left h3{font-size:22px;}
+  .form-box{padding:22px 18px;}
+  .fg-row{grid-template-columns:1fr;}
+  .cm{padding:14px;}
+
+  /* Footer */
+  .footer-top{grid-template-columns:1fr 1fr;gap:20px;}
+  .footer-brand{grid-column:1/-1;}
+  .footer-bottom{flex-direction:column;text-align:center;gap:6px;}
+  footer{padding:40px 5% 24px;}
+
+  /* Sticky WhatsApp button at bottom */
+  .sticky-wa{display:flex;}
+}
+
+/* STICKY WHATSAPP BUTTON — MOBILE ONLY */
+.sticky-wa{
+  display:none;
+  position:fixed;
+  bottom:20px;right:20px;
+  z-index:998;
+  background:#25D366;
+  color:#fff;
+  width:56px;height:56px;
+  border-radius:50%;
+  align-items:center;justify-content:center;
+  font-size:26px;
+  box-shadow:0 4px 20px rgba(37,211,102,0.5);
+  text-decoration:none;
+  animation:bounce 2s infinite;
+}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.show{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <svg class="logo-mark" viewBox="0 0 32 32" fill="none">
+      <defs><linearGradient id="lg" x1="6" y1="2" x2="26" y2="30" gradientUnits="userSpaceOnUse"><stop stop-color="#60D0FF"/><stop offset="1" stop-color="#0044CC"/></linearGradient></defs>
+      <polygon points="16,2 25,29 7,29" fill="url(#lg)" opacity=".95"/>
+      <polygon points="16,2 9,29 16,24" fill="rgba(4,16,44,0.55)"/>
+      <line x1="10" y1="19" x2="22" y2="19" stroke="#00D1FF" stroke-width="1.4" opacity=".8"/>
+      <circle cx="9" cy="30" r="1.4" fill="#00D1FF"/><circle cx="16" cy="30" r="1.4" fill="#00D1FF"/><circle cx="23" cy="30" r="1.4" fill="#00D1FF"/>
+      <circle cx="16.5" cy="1.5" r="1.8" fill="white" opacity=".9"/>
+    </svg>
+    <span class="logo-text">ARTH<span>ai</span></span>
+  </a>
+  <div class="nav-right">
+    <a href="#features" class="nav-link">Features</a>
+    <a href="#usecases" class="nav-link">Use Cases</a>
+    <a href="#contact" class="nav-link">Contact</a>
+    <a href="https://wa.me/919999999999?text=Hi%2C+I+want+a+live+demo+of+ARTH+AI" class="nav-wa" target="_blank">💬 See Live Demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-left">
+    <div class="hero-tag">🟢 WhatsApp API Powered · Made for India</div>
+    <h1>YOUR NEXT PROPERTY LEAD IS ALREADY <span class="accent">ON WHATSAPP.</span></h1>
+    <p class="hero-sub">Most real estate businesses lose <strong>60% of leads</strong> to slow follow-ups. ARTH AI Agent responds instantly, follows up automatically, and <strong>books site visits — 24×7.</strong></p>
+    <div class="hero-ctas">
+      <a href="https://wa.me/919999999999?text=Hi%2C+I+want+a+live+demo+of+ARTH+AI" class="cta-wa" target="_blank">💬 See Live Demo on WhatsApp</a>
+      <a href="#contact" class="cta-secondary">📅 Book a Strategy Call →</a>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-item"><strong>3×</strong> More Leads</div>
+      <div class="proof-dot"></div>
+      <div class="proof-item"><strong>60%</strong> Faster Follow-Ups</div>
+      <div class="proof-dot"></div>
+      <div class="proof-item"><strong>24×7</strong> AI Working</div>
+      <div class="proof-dot"></div>
+      <div class="proof-item">Nagpur <strong>·</strong> Mumbai <strong>·</strong> Pan India</div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="chat-phone">
+      <div class="chat-header">
+        <div class="chat-avatar">A</div>
+        <div class="chat-info">
+          <h4>ARTH AI Agent</h4>
+          <p>Real Estate Assistant</p>
+        </div>
+        <div class="chat-online"></div>
+      </div>
+      <div class="chat-body">
+        <div class="msg msg-in">Hi, I saw your ad for 3BHK flats in Nagpur. Interested to know more 🏠<div class="msg-time">10:02 AM</div></div>
+        <div class="msg msg-out">Hi Rahul! 👋 Great choice — we have 3BHK units starting ₹45L in Wardha Road. Would you like to see the floor plans?<div class="msg-time">10:02 AM <span class="msg-status">✓✓</span></div></div>
+        <div class="msg msg-in">Yes please! Also what's the possession date?<div class="msg-time">10:03 AM</div></div>
+        <div class="msg msg-out">Possession is Dec 2026. Ready to move units also available! 🔑<br><br>Can I schedule a quick site visit this weekend?<div class="msg-time">10:03 AM <span class="msg-status">✓✓</span></div></div>
+        <div class="msg msg-in">Saturday works for me 👍<div class="msg-time">10:04 AM</div></div>
+        <div class="msg msg-out">✅ Site visit confirmed — Saturday 11 AM! I'll send you the location & details shortly. See you there! 🏢<div class="msg-time">10:04 AM <span class="msg-status">✓✓</span></div></div>
+        <div class="typing"><span></span><span></span><span></span></div>
+      </div>
+      <div class="chat-badge">🤖 ARTH AI — Responded in 8 seconds. Site visit booked.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item"><span class="trust-icon">🏢</span> For Builders & Developers</div>
+    <div class="trust-item"><span class="trust-icon">🤝</span> For Real Estate Brokers</div>
+    <div class="trust-item"><span class="trust-icon">🏬</span> For Commercial Leasing</div>
+    <div class="trust-item"><span class="trust-icon">📲</span> Official WhatsApp API</div>
+    <div class="trust-item"><span class="trust-icon">🇮🇳</span> Built for Indian Market</div>
+    <div class="trust-item"><span class="trust-icon">🗣️</span> Hindi · Marathi · English</div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem reveal">
+  <div class="section-eyebrow">The Real Problem</div>
+  <div class="section-h">LEADS ARE COMING.<br>FOLLOW-UPS ARE NOT.</div>
+  <p class="section-sub">Every missed follow-up is a lost commission. Here's why most real estate businesses bleed leads every single day.</p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-emoji">⏰</div>
+      <h3>Slow response = lost deal</h3>
+      <p>78% of buyers go with whoever responds first. Your competitor responded in 2 minutes. You called back 3 hours later.</p>
+      <div class="problem-stat">→ AVERAGE BROKER RESPONSE: 3–4 HOURS</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-emoji">📋</div>
+      <h3>Leads lost in WhatsApp chaos</h3>
+      <p>Leads scattered across personal WhatsApp, missed calls, and Excel sheets. No system means no conversions.</p>
+      <div class="problem-stat">→ 40% OF LEADS NEVER GET FOLLOWED UP</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-emoji">💸</div>
+      <h3>Ad spend with zero ROI</h3>
+      <p>You spend on Facebook & Google ads. But without instant follow-up, most leads go cold before you even call them.</p>
+      <div class="problem-stat">→ 60% OF AD LEADS WASTED ON FOLLOW-UP DELAYS</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<section class="workflow reveal" id="how">
+  <div style="text-align:center">
+    <div class="section-eyebrow" style="justify-content:center">Live Workflow</div>
+    <div class="section-h" style="text-align:center">FROM LEAD TO SITE VISIT<br>WITHOUT YOU LIFTING A FINGER</div>
+  </div>
+  <div class="workflow-steps">
+    <div class="wf-step">
+      <div class="wf-num">1</div>
+      <div class="wf-content">
+        <h3>Lead comes in from Facebook / Google Ad</h3>
+        <p>Prospect clicks your ad and sends a WhatsApp message. Could be 2 PM or 2 AM — ARTH is always on.</p>
+        <span class="wf-tag">📲 Instant trigger</span>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">2</div>
+      <div class="wf-content">
+        <h3>ARTH AI replies in seconds — not hours</h3>
+        <p>Personalised response with property details, price range, and availability. The lead feels attended to immediately.</p>
+        <span class="wf-tag">⚡ Response in &lt;10 seconds</span>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">3</div>
+      <div class="wf-content">
+        <h3>AI qualifies the lead automatically</h3>
+        <p>Asks the right questions — budget, timeline, location preference — and scores the lead by buying intent.</p>
+        <span class="wf-tag">🎯 Smart qualification</span>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">4</div>
+      <div class="wf-content">
+        <h3>Site visit gets booked on WhatsApp</h3>
+        <p>Hot leads get a site visit scheduled directly — date, time, location — all confirmed on WhatsApp automatically.</p>
+        <span class="wf-tag">🏠 Auto scheduling</span>
+      </div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">5</div>
+      <div class="wf-content">
+        <h3>You show up & close the deal</h3>
+        <p>By the time you meet the prospect, they're warm, informed, and ready. Your job is just to close.</p>
+        <span class="wf-tag">💰 Higher conversion rate</span>
+      </div>
+    </div>
+  </div>
+  <div class="wf-result">
+    <div class="wf-result-icon">🏆</div>
+    <div>
+      <h4>Your sales team sleeps. ARTH doesn't.</h4>
+      <p>ARTH AI works 24×7, never misses a lead, never forgets a follow-up, and never loses commission.</p>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="usecases reveal" id="usecases">
+  <div class="section-eyebrow">Use Cases</div>
+  <div class="section-h">BUILT SPECIFICALLY<br>FOR YOUR BUSINESS</div>
+  <div class="usecase-tabs">
+    <button class="uc-tab active" onclick="switchTab('builders',this)">🏗️ Builders & Developers</button>
+    <button class="uc-tab" onclick="switchTab('brokers',this)">🤝 Real Estate Brokers</button>
+    <button class="uc-tab" onclick="switchTab('commercial',this)">🏬 Commercial Leasing</button>
+  </div>
+  <div id="tab-builders" class="uc-content active">
+    <div class="uc-points">
+      <div class="uc-point"><div class="uc-point-icon">🚀</div><div><h4>Project Launch Automation</h4><p>Blast new project announcements to 1000s of prospects on WhatsApp the moment your project launches.</p></div></div>
+      <div class="uc-point"><div class="uc-point-icon">📦</div><div><h4>Inventory Push</h4><p>Automatically notify interested buyers when new units, floors, or configurations become available.</p></div></div>
+      <div class="uc-point"><div class="uc-point-icon">✅</div><div><h4>Lead Qualification at Scale</h4><p>AI filters serious buyers from browsers — so your sales team talks only to high-intent prospects.</p></div></div>
+      <div class="uc-point"><div class="uc-point-icon">📅</div><div><h4>Site Visit Coordination</h4><p>Automated scheduling, reminders, and confirmations — zero manual coordination for your team.</p></div></div>
+    </div>
+    <div class="uc-highlight">
+      <h3>For Builders & Developers</h3>
+      <p>Launch projects faster, push inventory smarter, and convert more buyers — without scaling your sales team headcount.</p>
+      <div class="uc-result">
+        <div class="uc-result-item"><div class="uc-result-num">5×</div><div class="uc-result-label">Faster Lead Response</div></div>
+        <div class="uc-result-item"><div class="uc-result-num">40%</div><div class="uc-result-label">More Site Visits</div></div>
+        <div class="uc-result-item"><div class="uc-result-num">24/7</div><div class="uc-result-label">AI on Duty</div></div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-brokers" class="uc-content">
+    <div class="uc-points">
+      <div class="uc-point"><div class="uc-point-icon">🔁</div><div><h4>Auto Follow-Up Sequences</h4><p>Every lead gets followed up at the right time — Day 1, Day 3, Day 7 — automatically on WhatsApp.</p></div></div>
+      <div class="uc-point"><div class="uc-point-icon">💬</div><div><h4>WhatsApp Lead Nurturing</h4><p>Send property options, price updates, and market insights automatically to keep prospects warm.</p></div></div>
+      <div class="uc-point"><div class="uc-point-icon">🔔</div><div><h4>Lead Reminders & Alerts</h4><p>Never forget a hot lead again. AI reminds you when it's the right time to personally call a prospect.</p></div></div>
+      <div class="uc-point"><div class="uc-point-icon">📊</div><div><h4>Pipeline Visibility</h4><p>See every lead's status, last interaction, and next action in one simple dashboard.</p></div></div>
+    </div>
+    <div class="uc-highlight">
+      <h3>For Brokers & Consultants</h3>
+      <p>Most brokers lose deals in the first 5 minutes. ARTH makes sure you're always the first to respond — and the last they need to call.</p>
+      <div class="uc-result">
+        <div class="uc-result-item"><div class="uc-result-num">3×</div><div class="uc-result-label">More Conversions</div></div>
+        <div class="uc-result-item"><div class="uc-result-num">0</div><div class="uc-result-label">Missed Follow-Ups</div></div>
+        <div class="uc-result-item"><div class="uc-result-num">60%</div><div class="uc-result-label">Time Saved</div></div>
+      </div>
+    </div>
+  </div>
+  <div id="tab-commercial" class="uc-content">
+    <div class="uc-points">
+      <div class="uc-point"><div class="uc-point-icon">🏢</div><div><h4>Corporate Lead Outreach</h4><p>Automatically reach out to companies looking for office space, warehouses, or retail units.</p></div></div>
+      <div class="uc-point"><div class="uc-point-icon">🔍</div><div><h4>Property Matching</h4><p>AI matches corporate requirements with your available inventory and sends personalised proposals on WhatsApp.</p></div></div>
+      <div class="uc-point"><div class="uc-point-icon">📆</div><div><h4>Automated Site Scheduling</h4><p>Coordinate site visits for multiple stakeholders — HR, admin, management — automatically.</p></div></div>
+      <div class="uc-point"><div class="uc-point-icon">🤖</div><div><h4>Long Cycle Nurturing</h4><p>Commercial deals take months. ARTH keeps prospects engaged throughout the entire decision cycle.</p></div></div>
+    </div>
+    <div class="uc-highlight">
+      <h3>For Commercial Leasing</h3>
+      <p>Commercial real estate has longer sales cycles. ARTH AI keeps your pipeline warm and active — automatically — so no deal falls through the cracks.</p>
+      <div class="uc-result">
+        <div class="uc-result-item"><div class="uc-result-num">2×</div><div class="uc-result-label">More Proposals Sent</div></div>
+        <div class="uc-result-item"><div class="uc-result-num">50%</div><div class="uc-result-label">Shorter Sales Cycle</div></div>
+        <div class="uc-result-item"><div class="uc-result-num">100%</div><div class="uc-result-label">Pipeline Visibility</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results reveal">
+  <div style="text-align:center">
+    <div class="section-eyebrow" style="justify-content:center">The Numbers</div>
+    <div class="section-h" style="text-align:center">WHAT ARTH DELIVERS</div>
+  </div>
+  <div class="results-grid">
+    <div class="result-card"><div class="result-num">3×</div><div class="result-label">More Qualified Leads</div></div>
+    <div class="result-card"><div class="result-num">60%</div><div class="result-label">Faster Follow-Ups</div></div>
+    <div class="result-card"><div class="result-num">24/7</div><div class="result-label">AI Never Sleeps</div></div>
+    <div class="result-card"><div class="result-num">₹0</div><div class="result-label">Cost to Get Started</div></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features reveal" id="features">
+  <div class="section-eyebrow">What's Inside</div>
+  <div class="section-h">EVERYTHING YOU NEED TO<br>NEVER MISS A LEAD AGAIN</div>
+  <div class="features-grid">
+    <div class="feat-card"><div class="feat-icon">🤖</div><h3>AI Lead Generation</h3><p>Automatically identify and reach qualified real estate prospects in your city using intelligent outreach.</p><div class="feat-badge">→ AI POWERED</div></div>
+    <div class="feat-card"><div class="feat-icon">📲</div><h3>WhatsApp Automation</h3><p>Official WhatsApp Business API. Send personalised messages, follow-ups and property details automatically.</p><div class="feat-badge">→ OFFICIAL API</div></div>
+    <div class="feat-card"><div class="feat-icon">🏠</div><h3>Site Visit Scheduling</h3><p>AI qualifies leads and books site visits directly in your calendar. Zero coordination needed from your team.</p><div class="feat-badge">→ AUTO SCHEDULING</div></div>
+    <div class="feat-card"><div class="feat-icon">🎯</div><h3>Smart Lead Scoring</h3><p>AI ranks leads by buying intent. Your team only talks to the hottest prospects ready to buy now.</p><div class="feat-badge">→ INTENT SCORING</div></div>
+    <div class="feat-card"><div class="feat-icon">🔁</div><h3>Drip Campaigns</h3><p>Multi-touch nurturing sequences keep cold leads warm until they are ready to take action.</p><div class="feat-badge">→ AUTOMATED SEQUENCES</div></div>
+    <div class="feat-card"><div class="feat-icon">📊</div><h3>Real-Time Dashboard</h3><p>Track every message, open rate, response, lead stage and site visit in one clean dashboard.</p><div class="feat-badge">→ LIVE ANALYTICS</div></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq reveal">
+  <div style="text-align:center">
+    <div class="section-eyebrow" style="justify-content:center">FAQ</div>
+    <div class="section-h" style="text-align:center">QUESTIONS WE GET ASKED</div>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Is using WhatsApp API for business legal in India?</span><span class="icon">+</span></div>
+      <div class="faq-a"><p>Yes, 100% legal. ARTH uses the Official WhatsApp Business API approved by Meta. Every message is sent through verified business accounts with proper consent mechanisms — fully compliant with Indian regulations.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Can ARTH AI speak in Hindi and Marathi?</span><span class="icon">+</span></div>
+      <div class="faq-a"><p>Yes! ARTH AI is built for the Indian market and supports Hindi, Marathi, and English — or a natural mix of all three, just like how Indian business conversations actually happen.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Does it integrate with my existing CRM?</span><span class="icon">+</span></div>
+      <div class="faq-a"><p>ARTH integrates with popular Indian real estate CRMs. If you use a custom setup, our team configures the integration for you during onboarding at no extra cost.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>How long does it take to get started?</span><span class="icon">+</span></div>
+      <div class="faq-a"><p>Most businesses go live within 48 hours of onboarding. We handle the setup, WhatsApp API connection, message templates, and initial configuration — you just start getting leads.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Can it handle commercial leasing queries too?</span><span class="icon">+</span></div>
+      <div class="faq-a"><p>Absolutely. ARTH handles residential, commercial, and industrial real estate queries. The AI is trained to handle complex commercial requirements, long sales cycles, and multi-stakeholder deal flows.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>What if a lead asks something the AI can't answer?</span><span class="icon">+</span></div>
+      <div class="faq-a"><p>ARTH intelligently hands off to your human team when needed — with full conversation context — so your team picks up exactly where the AI left off with zero repetition for the client.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta reveal">
+  <h2>MOST BROKERS LOSE DEALS<br>IN THE FIRST 5 MINUTES.</h2>
+  <p>Don't be one of them. See ARTH AI live on WhatsApp right now — it takes 2 minutes and costs you nothing.</p>
+  <div class="final-cta-btns">
+    <a href="https://wa.me/919999999999?text=Hi%2C+I+want+a+live+demo+of+ARTH+AI" class="btn-big-wa" target="_blank">💬 See ARTH Live on WhatsApp</a>
+    <a href="#contact" class="btn-big-outline">📅 Book Strategy Call</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact reveal" id="contact">
+  <div class="section-eyebrow">Get In Touch</div>
+  <div class="section-h">LET'S GROW YOUR<br>REAL ESTATE BUSINESS</div>
+  <div class="contact-grid">
+    <div class="contact-left">
+      <h3>Talk to us — we'll show you exactly how ARTH works for your business.</h3>
+      <p>Book a free 30-minute strategy call or message us directly on WhatsApp. We'll walk you through a live demo customised for your business type.</p>
+      <div class="contact-methods">
+        <a href="https://wa.me/919999999999?text=Hi%2C+I+want+a+live+demo" class="cm" target="_blank">
+          <div class="cm-icon" style="background:rgba(37,211,102,0.15)">💬</div>
+          <div><h4>WhatsApp — Fastest Response</h4><p>Message us now — we reply within minutes</p></div>
+        </a>
+        <a href="tel:+919999999999" class="cm">
+          <div class="cm-icon" style="background:rgba(26,140,255,0.15)">📞</div>
+          <div><h4>Call Us Directly</h4><p>Mon–Sat, 10am–7pm IST</p></div>
+        </a>
+        <a href="mailto:hello@arthai.in" class="cm">
+          <div class="cm-icon" style="background:rgba(255,165,0,0.15)">📧</div>
+          <div><h4>hello@arthai.in</h4><p>For detailed queries and partnerships</p></div>
+        </a>
+        <div class="cm" style="cursor:default">
+          <div class="cm-icon" style="background:rgba(255,255,255,0.05)">📍</div>
+          <div><h4>Nagpur, Maharashtra</h4><p>Serving real estate businesses pan India 🇮🇳</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-box">
+      <h3>Book Free Strategy Call</h3>
+      <div class="fg-row">
+        <div class="fg"><label>Your Name</label><input type="text" placeholder="Rahul Sharma"/></div>
+        <div class="fg"><label>WhatsApp Number</label><input type="tel" placeholder="+91 98765 43210"/></div>
+      </div>
+      <div class="fg"><label>Business Name</label><input type="text" placeholder="Your Real Estate Company"/></div>
+      <div class="fg"><label>Business Type</label>
+        <select>
+          <option>Select business type</option>
+          <option>Builder / Developer</option>
+          <option>Real Estate Broker</option>
+          <option>Property Dealer</option>
+          <option>Commercial Leasing</option>
+          <option>Real Estate Consultant</option>
+        </select>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>City</label><input type="text" placeholder="Nagpur / Mumbai..."/></div>
+        <div class="fg"><label>Monthly Lead Volume</label>
+          <select><option>Select range</option><option>0–50 leads</option><option>50–200 leads</option><option>200–500 leads</option><option>500+ leads</option></select>
+        </div>
+      </div>
+      <div class="fg"><label>Biggest Challenge (Optional)</label><textarea placeholder="e.g. Slow follow-ups, losing leads, low site visits..."></textarea></div>
+      <button class="submit-btn" onclick="alert('Thank you! We will WhatsApp you within 2 hours to schedule your demo. 🚀')">🚀 Book My Free Strategy Call</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="logo">
+        <svg class="logo-mark" viewBox="0 0 32 32" fill="none">
+          <defs><linearGradient id="lg3" x1="6" y1="2" x2="26" y2="30" gradientUnits="userSpaceOnUse"><stop stop-color="#60D0FF"/><stop offset="1" stop-color="#0044CC"/></linearGradient></defs>
+          <polygon points="16,2 25,29 7,29" fill="url(#lg3)" opacity=".95"/>
+          <polygon points="16,2 9,29 16,24" fill="rgba(4,16,44,0.55)"/>
+          <circle cx="9" cy="30" r="1.4" fill="#00D1FF"/><circle cx="16" cy="30" r="1.4" fill="#00D1FF"/><circle cx="23" cy="30" r="1.4" fill="#00D1FF"/>
+        </svg>
+        <span class="logo-text">ARTH<span>ai</span></span>
+      </a>
+      <p>AI-powered real estate automation for builders, brokers, and property dealers across India. Powered by Official WhatsApp API.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#features">AI Lead Generation</a></li>
+        <li><a href="#features">WhatsApp Automation</a></li>
+        <li><a href="#features">Site Visit Scheduling</a></li>
+        <li><a href="#features">Lead Scoring</a></li>
+        <li><a href="#features">Analytics Dashboard</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Use Cases</h4>
+      <ul>
+        <li><a href="#usecases">For Builders</a></li>
+        <li><a href="#usecases">For Brokers</a></li>
+        <li><a href="#usecases">Commercial Leasing</a></li>
+        <li><a href="#how">How It Works</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="https://wa.me/919999999999">WhatsApp Us</a></li>
+        <li><a href="tel:+919999999999">Call Us</a></li>
+        <li><a href="mailto:hello@arthai.in">hello@arthai.in</a></li>
+        <li><a href="#contact">Book Demo</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 ARTHai · VVS Consultancy · Nagpur, Maharashtra</p>
+    <p>Built with ❤️ for Indian Real Estate 🇮🇳</p>
+  </div>
+</footer>
+
+<!-- STICKY WHATSAPP BUTTON (mobile) -->
+<a href="https://wa.me/919999999999?text=Hi%2C+I+want+a+live+demo+of+ARTH+AI" class="sticky-wa" target="_blank" title="Chat on WhatsApp">💬</a>
+
+<script>
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Use case tabs
+function switchTab(id, btn) {
+  document.querySelectorAll('.uc-content').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.uc-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// FAQ
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
