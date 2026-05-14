@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ARTH AI — Sales Psychology Pitch Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#07111F;--bg2:#0D1B2A;--bg3:#0a1628;
+  --blue:#1E90FF;--cyan:#00D1FF;--green:#25D366;
+  --gold:#F59E0B;--white:#F0F8FF;--gray:#64748B;
+  --lgray:#94A3B8;--border:rgba(0,180,255,0.12);
+  --f:'Plus Jakarta Sans',sans-serif;
+  --fd:'Syne',sans-serif;
+  --fm:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--white);font-family:var(--f);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,180,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,255,0.03) 1px,transparent 1px);background-size:55px 55px;pointer-events:none;z-index:0;}
+
+.container{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:40px 24px 80px;}
+
+/* HEADER */
+.header{text-align:center;margin-bottom:40px;}
+.logo-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px;}
+.logo-text{font-family:var(--fd);font-size:22px;font-weight:800;letter-spacing:0.04em;}
+.logo-text span{color:var(--cyan);}
+.header-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);padding:6px 16px;border-radius:20px;font-size:11px;color:var(--gold);font-weight:600;letter-spacing:0.08em;font-family:var(--fm);margin-bottom:18px;}
+.header h1{font-family:var(--fd);font-size:clamp(26px,4vw,40px);font-weight:800;line-height:1.1;margin-bottom:12px;letter-spacing:-0.01em;}
+.header h1 .cyan{color:var(--cyan);}
+.header p{font-size:14px;color:var(--lgray);line-height:1.7;max-width:560px;margin:0 auto;}
+
+/* BOOKS STRIP */
+.books-strip{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:36px;}
+.book-pill{display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--border);padding:5px 12px;border-radius:20px;font-size:11px;color:var(--lgray);font-family:var(--fm);letter-spacing:0.04em;transition:all .2s;}
+.book-pill:hover{border-color:var(--cyan);color:var(--cyan);}
+.book-pill .dot{width:5px;height:5px;border-radius:50%;background:var(--cyan);flex-shrink:0;}
+
+/* FORM */
+.form-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:32px;margin-bottom:20px;}
+.form-card h2{font-family:var(--fd);font-size:18px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:10px;letter-spacing:0.02em;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.field{display:flex;flex-direction:column;gap:7px;}
+.field.full{grid-column:1/-1;}
+label{font-family:var(--fm);font-size:10px;color:var(--lgray);letter-spacing:0.12em;text-transform:uppercase;}
+input,select,textarea{background:rgba(0,0,0,0.3);border:1px solid var(--border);color:var(--white);font-family:var(--f);font-size:13px;padding:11px 14px;border-radius:6px;outline:none;transition:border-color .2s;width:100%;}
+input:focus,select:focus,textarea:focus{border-color:var(--cyan);}
+select option{background:#0d1b2a;}
+textarea{resize:vertical;min-height:70px;}
+
+/* FRAMEWORK SELECTOR */
+.framework-section{margin-bottom:20px;}
+.framework-label{font-family:var(--fm);font-size:10px;color:var(--lgray);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;display:block;}
+.frameworks{display:flex;flex-wrap:wrap;gap:8px;}
+.fw-btn{padding:7px 14px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--lgray);font-family:var(--fm);font-size:11px;cursor:pointer;transition:all .15s;letter-spacing:0.04em;}
+.fw-btn:hover{border-color:var(--blue);color:var(--blue);}
+.fw-btn.active{background:rgba(0,180,255,0.12);border-color:var(--blue);color:var(--cyan);}
+
+/* TONE SELECTOR */
+.tone-section{margin-bottom:24px;}
+.tones{display:flex;gap:8px;flex-wrap:wrap;}
+.tone-btn{padding:7px 16px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--lgray);font-family:var(--f);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;}
+.tone-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.tone-btn.active{background:var(--cyan);border-color:var(--cyan);color:#000;font-weight:700;}
+
+/* GENERATE BTN */
+.gen-btn{width:100%;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;border:none;padding:16px;border-radius:8px;font-family:var(--fd);font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.04em;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.gen-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,180,255,0.35);}
+.gen-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* OUTPUT */
+.output-section{display:none;}
+.output-section.visible{display:block;animation:fadeIn .4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+
+/* TABS */
+.tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px;}
+.tab{flex:1;padding:11px;background:transparent;border:none;color:var(--lgray);font-family:var(--f);font-size:12px;font-weight:600;letter-spacing:0.04em;cursor:pointer;transition:all .15s;border-right:1px solid var(--border);}
+.tab:last-child{border-right:none;}
+.tab.active{background:var(--bg2);color:var(--cyan);}
+.tab:hover:not(.active){color:var(--white);}
+
+/* MESSAGE CARD */
+.msg-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px;}
+.msg-header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:var(--bg3);border-bottom:1px solid var(--border);}
+.msg-header-left{display:flex;align-items:center;gap:10px;}
+.wa-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.msg-label{font-family:var(--fm);font-size:11px;color:var(--green);letter-spacing:0.08em;text-transform:uppercase;}
+.copy-btn{background:transparent;border:1px solid var(--border);color:var(--lgray);font-family:var(--fm);font-size:10px;padding:5px 12px;border-radius:4px;cursor:pointer;letter-spacing:0.06em;transition:all .15s;}
+.copy-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+.copy-btn.copied{border-color:var(--green);color:var(--green);}
+.msg-body{padding:22px;font-size:14px;line-height:1.85;color:var(--white);white-space:pre-wrap;min-height:120px;font-family:var(--f);}
+
+/* FRAMEWORK USED */
+.framework-used{display:flex;flex-wrap:wrap;gap:6px;padding:12px 18px;border-top:1px solid var(--border);}
+.fw-tag{padding:3px 10px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:20px;font-family:var(--fm);font-size:10px;color:var(--gold);letter-spacing:0.06em;}
+
+/* STATS */
+.stats-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.stat-chip{background:var(--bg2);border:1px solid var(--border);padding:8px 14px;border-radius:6px;font-family:var(--fm);font-size:11px;color:var(--lgray);}
+.stat-chip b{color:var(--cyan);}
+
+/* SHIMMER */
+.shimmer{background:linear-gradient(90deg,var(--bg2) 25%,var(--border) 50%,var(--bg2) 75%);background-size:200%;animation:shimmer 1.4s infinite;height:14px;border-radius:3px;margin-bottom:10px;}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+/* ERROR */
+.error{background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.25);color:#ff7070;padding:14px 18px;border-radius:6px;font-size:13px;line-height:1.6;}
+
+/* PSYCHOLOGY INSIGHT */
+.insight-card{background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);border-radius:10px;padding:20px;margin-bottom:16px;}
+.insight-title{font-family:var(--fm);font-size:10px;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;}
+.insight-body{font-size:13px;color:var(--lgray);line-height:1.75;}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .form-grid{grid-template-columns:1fr;}
+  .container{padding:24px 16px 60px;}
+  .header h1{font-size:24px;}
+  .tabs{flex-wrap:wrap;}
+  .tab{flex:none;width:50%;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-row">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <defs><linearGradient id="lg" x1="6" y1="2" x2="26" y2="30" gradientUnits="userSpaceOnUse"><stop stop-color="#60D0FF"/><stop offset="1" stop-color="#0044CC"/></linearGradient></defs>
+        <polygon points="16,2 25,29 7,29" fill="url(#lg)" opacity=".95"/>
+        <polygon points="16,2 9,29 16,24" fill="rgba(4,16,44,0.55)"/>
+        <line x1="10" y1="19" x2="22" y2="19" stroke="#00D1FF" stroke-width="1.4" opacity=".8"/>
+        <circle cx="9" cy="30" r="1.4" fill="#00D1FF"/><circle cx="16" cy="30" r="1.4" fill="#00D1FF"/><circle cx="23" cy="30" r="1.4" fill="#00D1FF"/>
+        <circle cx="16.5" cy="1.5" r="1.8" fill="white" opacity=".9"/>
+      </svg>
+      <div class="logo-text">ARTH<span>ai</span> Sales Engine</div>
+    </div>
+    <div class="header-badge">📚 Trained on 10 World's Best Sales & Marketing Books</div>
+    <h1>AI Pitch Generator<br><span class="cyan">Powered by Sales Psychology</span></h1>
+    <p>Every message generated uses proven frameworks from the world's best sales books — SPIN Selling, Cialdini's influence principles, Challenger Sale, StoryBrand & more.</p>
+  </div>
+
+  <!-- BOOKS STRIP -->
+  <div class="books-strip">
+    <div class="book-pill"><span class="dot"></span>SPIN Selling</div>
+    <div class="book-pill"><span class="dot"></span>Influence — Cialdini</div>
+    <div class="book-pill"><span class="dot"></span>Never Split the Difference</div>
+    <div class="book-pill"><span class="dot"></span>Challenger Sale</div>
+    <div class="book-pill"><span class="dot"></span>StoryBrand</div>
+    <div class="book-pill"><span class="dot"></span>$100M Offers</div>
+    <div class="book-pill"><span class="dot"></span>Psychology of Selling</div>
+    <div class="book-pill"><span class="dot"></span>Traction</div>
+    <div class="book-pill"><span class="dot"></span>Dotcom Secrets</div>
+    <div class="book-pill"><span class="dot"></span>Contagious</div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-card">
+    <h2>🎯 Prospect Details</h2>
+    <div class="form-grid">
+      <div class="field">
+        <label>Prospect Name</label>
+        <input type="text" id="name" placeholder="Rahul Sharma"/>
+      </div>
+      <div class="field">
+        <label>Designation</label>
+        <input type="text" id="role" placeholder="Managing Director"/>
+      </div>
+      <div class="field">
+        <label>Company Name</label>
+        <input type="text" id="company" placeholder="Raut Builders"/>
+      </div>
+      <div class="field">
+        <label>Business Type</label>
+        <select id="type">
+          <option value="">Select type</option>
+          <option>Builder / Developer</option>
+          <option>Real Estate Broker</option>
+          <option>Property Dealer</option>
+          <option>Commercial Leasing</option>
+          <option>Real Estate Consultant</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>City / Area</label>
+        <select id="city">
+          <option value="">Select city</option>
+          <option>Nagpur</option>
+          <option>Mumbai</option>
+          <option>Pune</option>
+          <option>Delhi</option>
+          <option>Bangalore</option>
+          <option>Hyderabad</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Their Active Area / Project</label>
+        <input type="text" id="area" placeholder="Wardha Road, Manish Nagar"/>
+      </div>
+      <div class="field full">
+        <label>Known Pain Point (optional but powerful)</label>
+        <textarea id="pain" placeholder="e.g. Gets lots of leads from Facebook ads but team is slow to follow up. Misses leads at night."></textarea>
+      </div>
+    </div>
+
+    <!-- FRAMEWORKS -->
+    <div class="framework-section">
+      <span class="framework-label">Sales Frameworks to Apply (select all that fit)</span>
+      <div class="frameworks">
+        <button class="fw-btn active" data-fw="SPIN">SPIN Selling</button>
+        <button class="fw-btn active" data-fw="CIALDINI">Cialdini Influence</button>
+        <button class="fw-btn active" data-fw="CHALLENGER">Challenger Sale</button>
+        <button class="fw-btn active" data-fw="STORYBRAND">StoryBrand</button>
+        <button class="fw-btn" data-fw="VOSS">Never Split Difference</button>
+        <button class="fw-btn" data-fw="HORMOZI">$100M Offers</button>
+        <button class="fw-btn" data-fw="TRACY">Psychology of Selling</button>
+      </div>
+    </div>
+
+    <!-- TONE -->
+    <div class="tone-section">
+      <span class="framework-label">Message Tone</span>
+      <div class="tones">
+        <button class="tone-btn active" data-tone="Warm & Conversational">Warm</button>
+        <button class="tone-btn" data-tone="Professional & Authoritative">Professional</button>
+        <button class="tone-btn" data-tone="Bold & Direct">Bold</button>
+        <button class="tone-btn" data-tone="Curious & Insight-Led">Insight-Led</button>
+        <button class="tone-btn" data-tone="Empathetic & Understanding">Empathetic</button>
+      </div>
+    </div>
+
+    <button class="gen-btn" id="genBtn" onclick="generate()">
+      ⚡ Generate Psychology-Powered Pitch
+    </button>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="output-section" id="outputSection">
+
+    <div class="stats-row" id="statsRow"></div>
+
+    <div class="insight-card" id="insightCard">
+      <div class="insight-title">🧠 Sales Psychology Analysis</div>
+      <div class="insight-body" id="insightBody"></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab(0,this)">📲 Opening Message</button>
+      <button class="tab" onclick="switchTab(1,this)">🔁 Follow-Up Day 3</button>
+      <button class="tab" onclick="switchTab(2,this)">🛡️ Objection Handler</button>
+      <button class="tab" onclick="switchTab(3,this)">🎯 Demo Invite</button>
+    </div>
+
+    <div class="msg-card">
+      <div class="msg-header">
+        <div class="msg-header-left">
+          <div class="wa-dot"></div>
+          <div class="msg-label">WhatsApp Ready</div>
+        </div>
+        <button class="copy-btn" id="copyBtn" onclick="copyMsg()">Copy</button>
+      </div>
+      <div class="msg-body" id="msgBody"></div>
+      <div class="framework-used" id="fwUsed"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let activeTone = 'Warm & Conversational';
+let activeFrameworks = ['SPIN','CIALDINI','CHALLENGER','STORYBRAND'];
+let messages = {0:'',1:'',2:'',3:''};
+let insights = '';
+let activeTab = 0;
+
+// Framework buttons
+document.querySelectorAll('.fw-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('active');
+    const fw = btn.dataset.fw;
+    if(btn.classList.contains('active')) {
+      if(!activeFrameworks.includes(fw)) activeFrameworks.push(fw);
+    } else {
+      activeFrameworks = activeFrameworks.filter(f => f !== fw);
+    }
+  });
+});
+
+// Tone buttons
+document.querySelectorAll('.tone-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeTone = btn.dataset.tone;
+  });
+});
+
+function showLoading() {
+  document.getElementById('msgBody').innerHTML = `
+    <div class="shimmer" style="width:90%"></div>
+    <div class="shimmer" style="width:75%"></div>
+    <div class="shimmer" style="width:85%"></div>
+    <div class="shimmer" style="width:65%"></div>
+    <div class="shimmer" style="width:80%"></div>
+  `;
+  document.getElementById('insightBody').innerHTML = `
+    <div class="shimmer" style="width:95%"></div>
+    <div class="shimmer" style="width:80%"></div>
+  `;
+  document.getElementById('fwUsed').innerHTML = '';
+  document.getElementById('statsRow').innerHTML = '';
+}
+
+async function generate() {
+  const name = document.getElementById('name').value.trim();
+  const role = document.getElementById('role').value.trim();
+  const company = document.getElementById('company').value.trim();
+  const type = document.getElementById('type').value;
+  const city = document.getElementById('city').value;
+  const area = document.getElementById('area').value.trim();
+  const pain = document.getElementById('pain').value.trim();
+
+  if(!name || !company || !type) {
+    alert('Please fill in at least Name, Company, and Business Type.');
+    return;
+  }
+
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Generating Psychology-Powered Pitch...';
+
+  const outputSection = document.getElementById('outputSection');
+  outputSection.classList.add('visible');
+  showLoading();
+
+  const fwDescriptions = {
+    SPIN: 'SPIN Selling (Rackham): Use Situation-Problem-Implication-Need questions to expose pain before pitching. Never pitch before the need is established.',
+    CIALDINI: 'Influence (Cialdini): Apply Social Proof ("builders I work with"), Scarcity ("3 spots"), Authority ("official WhatsApp API"), and Liking (genuine compliment on their work).',
+    CHALLENGER: 'Challenger Sale (Dixon): Teach them something surprising about their own market. Challenge their current thinking with an insight they haven\'t considered. Be commercially assertive.',
+    STORYBRAND: 'StoryBrand (Miller): Position the PROSPECT as the HERO. ARTH is the guide, not the hero. Their goal is closing more deals. Their villain is slow follow-ups and lost leads.',
+    VOSS: 'Never Split the Difference (Voss): Use tactical empathy — mirror their world before introducing your solution. Use "It sounds like..." and "It seems like..." to make them feel deeply understood.',
+    HORMOZI: '$100M Offers (Hormozi): Frame the offer around the dream outcome, reduce perceived risk with a guarantee, create urgency with limited availability, make the ROI undeniable.',
+    TRACY: 'Psychology of Selling (Tracy): Build confidence and trust first. Use the power of suggestion and positive expectation. Always focus on benefits, not features.'
+  };
+
+  const selectedFwText = activeFrameworks.map(fw => fwDescriptions[fw] || fw).join('\n\n');
+
+  const prompt = `You are an elite B2B sales consultant for ARTH AI Agent — an AI-powered real estate lead automation platform based in Nagpur, India. You have deeply studied and mastered the following sales frameworks and must apply ALL of them simultaneously in every message you write:
+
+${selectedFwText}
+
+ABOUT ARTH AI AGENT:
+- Automates WhatsApp lead follow-ups for real estate businesses
+- Responds to leads in under 10 seconds — 24/7
+- Books site visits automatically
+- Personalised AI pitches in Hindi, Marathi & English
+- Website: arthai.in | WhatsApp: +91 9359432857
+- Plans: Starter ₹2,999/mo | Growth ₹5,999/mo | Pro ₹11,999/mo
+
+PROSPECT:
+- Name: ${name}
+- Role: ${role || 'Business Owner'}
+- Company: ${company}
+- Type: ${type}
+- City: ${city || 'Nagpur'}
+- Active Area/Project: ${area || city || 'Nagpur'}
+- Known Pain: ${pain || 'slow lead follow-ups, missing leads especially after hours'}
+
+TONE: ${activeTone}
+
+YOUR TASK: Generate 4 WhatsApp messages AND a psychology analysis. Return ONLY valid JSON:
+
+{
+  "insight": "2-3 sentences explaining which psychological triggers this prospect is most susceptible to, what their core fear is as a business owner, and the #1 angle to use when selling to them specifically.",
+  "opening": "First outreach message. Max 90 words. Must feel personal, not mass-produced. Apply SPIN pain questions, StoryBrand hero positioning, and one Cialdini trigger. End with ONE soft low-commitment CTA.",
+  "followup": "Day 3 follow-up if no reply. 60-70 words. Must add NEW value — a market insight or surprising statistic they haven't heard. Apply Challenger Sale teaching approach. Create mild urgency without being pushy.",
+  "objection": "Response to 'not interested' or 'we already handle this'. 60-70 words. Apply Voss tactical empathy — validate their position first, then introduce a reframe. Never argue. Use the 'feel felt found' technique.",
+  "demo": "Demo invitation for an interested prospect. 70-80 words. Apply Hormozi dream outcome framing. List exactly what they'll see in the demo. Offer 2-3 specific time slots. Make it irresistible to say yes."
+}
+
+CRITICAL RULES:
+- Write in natural Indian English — mix of formal and warm, like a smart colleague
+- Never use asterisks for bold in WhatsApp
+- Use 1-2 emojis per message maximum — placed naturally
+- Never mention competitors
+- Never sound like a robot or mass mailer
+- The prospect's name must appear in every message
+- Reference their specific company or area in opening and follow-up
+- Return ONLY the JSON object — no preamble, no backticks, nothing else`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        messages: [{role:'user', content: prompt}]
+      })
+    });
+
+    const data = await res.json();
+    const raw = data.content.map(b => b.text || '').join('');
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(clean);
+
+    messages[0] = parsed.opening || '';
+    messages[1] = parsed.followup || '';
+    messages[2] = parsed.objection || '';
+    messages[3] = parsed.demo || '';
+    insights = parsed.insight || '';
+
+    // Show insight
+    document.getElementById('insightBody').textContent = insights;
+
+    // Show stats
+    const words = messages[0].trim().split(/\s+/).length;
+    document.getElementById('statsRow').innerHTML = `
+      <div class="stat-chip">Opening: <b>${words} words</b></div>
+      <div class="stat-chip">Frameworks: <b>${activeFrameworks.length} applied</b></div>
+      <div class="stat-chip">Tone: <b>${activeTone.split(' ')[0]}</b></div>
+      <div class="stat-chip">Target: <b>${type.split('/')[0].trim()}</b></div>
+    `;
+
+    // Switch to first tab
+    activeTab = 0;
+    document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===0));
+    document.getElementById('msgBody').textContent = messages[0];
+    updateFrameworkTags();
+
+  } catch(e) {
+    document.getElementById('msgBody').innerHTML = `<div class="error">⚠️ Generation failed. Please check all fields and try again.<br/><small>${e.message}</small></div>`;
+    document.getElementById('insightBody').textContent = '';
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '⚡ Regenerate Pitch';
+}
+
+function switchTab(idx, btn) {
+  activeTab = idx;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('msgBody').textContent = messages[idx] || '';
+  updateFrameworkTags();
+  document.getElementById('copyBtn').textContent = 'Copy';
+  document.getElementById('copyBtn').classList.remove('copied');
+}
+
+function updateFrameworkTags() {
+  const fwNames = {
+    SPIN:'SPIN Selling', CIALDINI:'Cialdini', CHALLENGER:'Challenger',
+    STORYBRAND:'StoryBrand', VOSS:'Voss Empathy', HORMOZI:'Hormozi Offer', TRACY:'Tracy Psychology'
+  };
+  document.getElementById('fwUsed').innerHTML = activeFrameworks
+    .map(fw => `<span class="fw-tag">${fwNames[fw]||fw}</span>`)
+    .join('');
+}
+
+function copyMsg() {
+  const text = messages[activeTab];
+  if(!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
